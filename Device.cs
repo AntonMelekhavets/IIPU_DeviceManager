@@ -21,6 +21,17 @@ namespace DeviceManager
         public string DriverPath { get; set; }
 
         public bool Status { get; set; }
-        
+
+        public void DisEnable(string operationType)
+        {
+            var devices = new ManagementObjectSearcher("SELECT * FROM Win32_PNPEntity");
+            var device = devices.Get()
+                 .OfType<ManagementObject>()
+                 .FirstOrDefault(x => x["DeviceID"].ToString().Contains(DevicePath));
+            if (device != null)
+            {
+                device.InvokeMethod(operationType, new object[] { false });
+            }
+        }
     }
 }
