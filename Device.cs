@@ -2,9 +2,9 @@
 using System.Management;
 
 
-namespace DeviceManager
+namespace Laba_5
 {
-    class Device
+    internal class Device
     {
         public string DevicePath { get; set; }
 
@@ -26,12 +26,9 @@ namespace DeviceManager
         {
             var devices = new ManagementObjectSearcher("SELECT * FROM Win32_PNPEntity");
             var device = devices.Get()
-                 .OfType<ManagementObject>()
-                 .FirstOrDefault(x => x["DeviceID"].ToString().Contains(DevicePath));
-            if (device != null)
-            {
-                device.InvokeMethod(operationType, new object[] { false });
-            }
+                .OfType<ManagementObject>()
+                .FirstOrDefault(x => x["DeviceID"].ToString().Contains(DevicePath));
+            device?.InvokeMethod(operationType, new object[] {false});
         }
     }
 }

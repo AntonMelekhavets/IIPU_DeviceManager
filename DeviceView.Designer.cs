@@ -1,4 +1,4 @@
-﻿namespace DeviceManager
+﻿namespace Laba_5
 {
     partial class DeviceView
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DeviceManager
+namespace Laba_5
 {
     static class Program
     {

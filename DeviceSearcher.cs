@@ -7,9 +7,9 @@ using System.IO;
 using System.Management;
 using System.Text.RegularExpressions;
 
-namespace DeviceManager
+namespace Laba_5
 {
-    class DeviceSearcher
+    internal class DeviceSearcher
     {
         public List<Device> GetDevices()
         {
@@ -24,7 +24,7 @@ namespace DeviceManager
                     Manufacturer = entityObject["Manufacturer"]?.ToString(),
                     DevicePath = entityObject["DeviceId"]?.ToString(),
                     DeviceDescription = entityObject["Description"]?.ToString(),
-                    Status = entityObject["Status"].ToString().Contains("OK") ? true : false
+                    Status = entityObject["Status"].ToString().Contains("OK") ? true : false,
                 };
                 SearchDriver(device, entityObject["Service"]?.ToString());
                 devices.Add(device);
@@ -32,10 +32,12 @@ namespace DeviceManager
             return devices;
         }
 
-        private void SearchDriver(Device device, string service)
+        private static void SearchDriver(Device device, string service)
         {
             if (string.IsNullOrEmpty(service)) return;
-            var searcher = new ManagementObjectSearcher($"SELECT * FROM Win32_SystemDriver WHERE Name = '{Regex.Escape(service)}'");
+            var searcher =
+                new ManagementObjectSearcher(
+                    $"SELECT * FROM Win32_SystemDriver WHERE Name = '{Regex.Escape(service)}'");
             foreach (var driver in searcher.Get())
             {
                 device.DriverDescription = driver["Description"]?.ToString();
